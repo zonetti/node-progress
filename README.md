@@ -4,7 +4,7 @@
 
 ## Installation
 
-    npm install progress
+    npm install git://github.com/zonetti/node-progress.git
 
 ## Usage
 
@@ -15,24 +15,31 @@
 ```javascript
 var ProgressBar = require('progress');
 
-var bar = new ProgressBar(':bar', { total: 10 });
+var progressBar = new ProgressBar(' downloading [:bar] :percent :etas', {
+  complete: '=',
+  incomplete: ' ',
+  width: 20,
+  total: 100
+});
+
 var timer = setInterval(function(){
-bar.tick();
-  if (bar.complete) {
-    console.log('\ncomplete\n');
-    clearInterval(timer);
-  }
+  progressBar.tick(1);
 }, 100);
+
+progressBar.on('end', function() {
+  clearInterval(timer);
+  console.log('Done!')
+});
 ```
 
-## Options:
+## Options
 
   - `total` total number of ticks to complete
   - `stream` the output stream defaulting to stdout
   - `complete` completion character defaulting to "="
   - `incomplete` incomplete character defaulting to "-"
 
-## Tokens:
+## Tokens
 
   - `:bar` the progress bar itself
   - `:current` current tick number
@@ -40,52 +47,6 @@ bar.tick();
   - `:elapsed` time elapsed in seconds
   - `:percent` completion percentage
   - `:eta` estimated completion time in seconds
-
-## Examples
-
-### Download
-
-  In our download example each tick has a variable influence, so we pass the chunk length which adjusts the progress bar appropriately relative to the total length. 
-
-```javascript
-var ProgressBar = require('../')
-  , https = require('https');
-
-var req = https.request({
-    host: 'download.github.com'
-  , port: 443
-  , path: '/visionmedia-node-jscoverage-0d4608a.zip'
-});
-
-req.on('response', function(res){
-  var len = parseInt(res.headers['content-length'], 10);
-
-  console.log();
-  var bar = new ProgressBar('  downloading [:bar] :percent :etas', {
-      complete: '='
-    , incomplete: ' '
-    , width: 20
-    , total: len
-  });
-
-  res.on('data', function(chunk){
-    bar.tick(chunk.length);
-  });
-
-  res.on('end', function(){
-    console.log('\n');
-  });
-});
-
-req.end();
-```
-
-  The code above will generate a progress bar that looks like this:
-
-```
-downloading [=====             ] 29% 3.7s
-```
-
 
 ## License 
 
