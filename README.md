@@ -22,7 +22,7 @@ var progressBar = new ProgressBar(' downloading [:bar] :percent :etas', {
   total: 100
 });
 
-var timer = setInterval(function(){
+var timer = setInterval(function() {
   progressBar.tick(1);
 }, 100);
 
