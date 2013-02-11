@@ -5,6 +5,8 @@
 ## Installation
 
     npm install git://github.com/zonetti/node-progress.git
+    or
+    npm install progress-with-event
 
 ## Usage
 
