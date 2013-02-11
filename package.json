@@ -1,5 +1,5 @@
 {
-    "name": "progress"
+    "name": "progress-with-event"
   , "version": "0.1.0"
   , "description": "Flexible ascii progress bar"
   , "keywords": ["cli", "progress"]
